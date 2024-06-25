@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewPost, postAdded } from "./postSlice";
+import { addNewPost } from "./postSlice";
 import { selectAllusers } from "../User/userSlice";
 
 export default function AddPostForm() {

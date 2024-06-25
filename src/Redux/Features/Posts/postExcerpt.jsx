@@ -5,7 +5,7 @@ import ReactionButtons from "./ReactionButtons";
 
 export const PostExcerpt = ({ post }) => {
   return (
-    <div>
+    <div key={post.id}>
       <article>
         <h3>{post.title}</h3>
         <p>{post.body.substring(0, 100)}</p>
