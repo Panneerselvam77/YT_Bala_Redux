@@ -2,22 +2,23 @@ import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import axios from "axios";
 
-// URL
+// URL for the posts API
 const POST_URL = "https://jsonplaceholder.typicode.com/posts";
 
-// Initial state
+// Initial state for the posts slice
 const initialState = {
-  posts: [],
-  status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
-  error: null,
+  posts: [], // Array to hold post objects
+  status: "idle", // Status of fetch operation: 'idle' | 'loading' | 'succeeded' | 'failed'
+  error: null, // Error message if fetch fails
 };
 
-// Fetching data
+// Asynchronous thunk action for fetching posts from the API
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   const response = await axios.get(POST_URL);
   return response.data;
 });
 
+// Asynchronous thunk action for adding a new post to the API
 export const addNewPost = createAsyncThunk(
   "posts/addNewPosts",
   async (initialPost) => {
@@ -26,10 +27,12 @@ export const addNewPost = createAsyncThunk(
   }
 );
 
+// Creating the posts slice
 const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
+    // Reducer for adding a post
     postAdded: {
       reducer: (state, action) => {
         state.posts.push(action.payload);
@@ -53,6 +56,7 @@ const postSlice = createSlice({
         };
       },
     },
+    // Reducer for adding a reaction to a post
     reactionAdded: (state, action) => {
       const { postId, reaction } = action.payload;
       const existingPost = state.posts.find((post) => post.id === postId);
@@ -63,9 +67,11 @@ const postSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      // Handle pending state for fetching posts
       .addCase(fetchPosts.pending, (state, action) => {
         state.status = "loading";
       })
+      // Handle fulfilled state for fetching posts
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
         let min = 1;
@@ -82,10 +88,12 @@ const postSlice = createSlice({
         });
         state.posts = state.posts.concat(loadedPosts);
       })
+      // Handle rejected state for fetching posts
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
+      // Handle fulfilled state for adding a new post
       .addCase(addNewPost.fulfilled, (state, action) => {
         const sortedPosts = state.posts.sort((a, b) => {
           if (a.id > b.id) return 1;
@@ -108,8 +116,14 @@ const postSlice = createSlice({
   },
 });
 
+// Selector for getting all posts
 export const selectAllPosts = (state) => state.posts.posts;
+// Selector for getting the status of posts
 export const getPostsStatus = (state) => state.posts.status;
+// Selector for getting any error related to posts
 export const getPostsError = (state) => state.posts.error;
+
+// Exporting the reducer
 export const postReducer = postSlice.reducer;
+// Exporting actions
 export const { postAdded, reactionAdded } = postSlice.actions;
