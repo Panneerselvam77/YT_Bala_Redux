@@ -122,7 +122,9 @@ export const selectAllPosts = (state) => state.posts.posts;
 export const getPostsStatus = (state) => state.posts.status;
 // Selector for getting any error related to posts
 export const getPostsError = (state) => state.posts.error;
-
+// Selector for getting required post by using userid to get particular post
+export const selectPostById = (state, postId) =>
+  state.posts.posts.find((post) => post.id === postId);
 // Exporting the reducer
 export const postReducer = postSlice.reducer;
 // Exporting actions
