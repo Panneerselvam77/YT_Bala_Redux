@@ -40,8 +40,8 @@ export default function PostList() {
     const orderedPosts = posts
       .slice()
       .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedPosts.map((post) => (
-      <PostExcerpt post={post} key={post.id} />
+    content = orderedPosts.map((post, index) => (
+      <PostExcerpt key={post.id + "" + index} post={post} />
     ));
   } else if (postStatus === "failed") {
     content = <p>{error}</p>;
