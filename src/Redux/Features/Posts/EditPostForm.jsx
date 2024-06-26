@@ -34,23 +34,23 @@ export default function EditPostForm() {
   /* **
    ** Function for Save the post
    */
-  const onSavePostClicked = () => {
+  const onSavePostClicked = async () => {
     if (canSave) {
       try {
         setRequestStatus("pending");
-        dispatch(
+        await dispatch(
           updatePost({
             id: post.id,
             title,
             body: content,
             userId,
             reactions: post.reactions,
-          }).unwrap()
-        );
+          })
+        ).unwrap();
         setTitle("");
         setContent("");
         setUserId("");
-        navigate(`post/${postId}`);
+        navigate(`/post/${postId}`);
       } catch (error) {
         console.error("Failed to save post:", error);
       } finally {
@@ -69,7 +69,7 @@ export default function EditPostForm() {
   const onDeletePostClicked = () => {
     try {
       setRequestStatus("pending");
-      dispatch(deletePost({ id: post.id }).unwrap());
+      dispatch(deletePost({ id: post.id })).unwrap();
 
       setTitle("");
       setContent("");

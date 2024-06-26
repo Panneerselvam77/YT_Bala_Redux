@@ -21,7 +21,7 @@ export default function SinglePostPage() {
       <h3>{post.title}</h3>
       <p>{post.body.substring(0, 100)}</p>
       <div className="postCredit">
-        <Link to={`post/edit/${post.id}`}>Edit Post</Link>
+        <Link to={`/post/edit/${post.id}`}>Edit Post</Link>
         <PostAuthor userId={post.userId} />
         <TimeAgo timeStamp={post.date} />
         <ReactionButtons post={post} />

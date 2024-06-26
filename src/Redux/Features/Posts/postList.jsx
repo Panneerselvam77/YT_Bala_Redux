@@ -41,7 +41,7 @@ export default function PostList() {
       .slice()
       .sort((a, b) => b.date.localeCompare(a.date));
     content = orderedPosts.map((post, index) => (
-      <PostExcerpt key={post.id + "" + index} post={post} />
+      <PostExcerpt key={index} post={post} />
     ));
   } else if (postStatus === "failed") {
     content = <p>{error}</p>;
