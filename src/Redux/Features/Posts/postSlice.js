@@ -1,6 +1,5 @@
 import {
   createSlice,
-  nanoid,
   createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
@@ -15,6 +14,7 @@ const initialState = {
   posts: [], // Array to hold post objects
   status: "idle", // Status of fetch operation: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null, // Error message if fetch fails
+  count: 0,
 };
 
 // Asynchronous thunk action for fetching posts from the API
@@ -62,30 +62,6 @@ const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    // Reducer for adding a post
-    postAdded: {
-      reducer: (state, action) => {
-        state.posts.push(action.payload);
-      },
-      prepare: (title, content, userId) => {
-        return {
-          payload: {
-            id: nanoid(),
-            title,
-            content,
-            date: new Date().toISOString(),
-            userId,
-            reactions: {
-              thumbsUp: 0,
-              wow: 0,
-              heart: 0,
-              rocket: 0,
-              coffee: 0,
-            },
-          },
-        };
-      },
-    },
     // Reducer for adding a reaction to a post
     reactionAdded: (state, action) => {
       const { postId, reaction } = action.payload;
@@ -93,6 +69,9 @@ const postSlice = createSlice({
       if (existingPost) {
         existingPost.reactions[reaction]++;
       }
+    },
+    increaseCount(state, action) {
+      state.count = state.count + 1;
     },
   },
   extraReducers(builder) {
@@ -173,6 +152,8 @@ export const selectAllPosts = (state) => state.posts.posts;
 export const getPostsStatus = (state) => state.posts.status;
 // Selector for getting any error related to posts
 export const getPostsError = (state) => state.posts.error;
+// Selecotor for getting count
+export const getCount = (state) => state.posts.count;
 // Selector for getting required post by using userid to get particular post
 export const selectPostById = (state, postId) =>
   state.posts.posts.find((post) => post.id === postId);
@@ -184,4 +165,4 @@ export const selectPostsByUser = createSelector(
 // Exporting the reducer
 export const postReducer = postSlice.reducer;
 // Exporting actions
-export const { postAdded, reactionAdded } = postSlice.actions;
+export const { reactionAdded, increaseCount } = postSlice.actions;

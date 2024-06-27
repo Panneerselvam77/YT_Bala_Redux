@@ -1,8 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectAllPosts, getPostsError, getPostsStatus } from "./postSlice";
-import { PostExcerpt } from "./postExcerpt";
-
+import PostExcerpt from "./postExcerpt";
 export default function PostList() {
   // Selector hooks to get posts state from Redux store
   const posts = useSelector(selectAllPosts);
