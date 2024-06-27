@@ -1,17 +1,9 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  selectAllPosts,
-  getPostsError,
-  getPostsStatus,
-  fetchPosts,
-} from "./postSlice";
+import React from "react";
+import { useSelector } from "react-redux";
+import { selectAllPosts, getPostsError, getPostsStatus } from "./postSlice";
 import { PostExcerpt } from "./postExcerpt";
 
 export default function PostList() {
-  // Hooks
-  const dispatch = useDispatch();
-
   // Selector hooks to get posts state from Redux store
   const posts = useSelector(selectAllPosts);
   const postStatus = useSelector(getPostsStatus);
@@ -22,11 +14,11 @@ export default function PostList() {
    * Sets an interval to show alert every 5 seconds unless dismissed.
    */
 
-  useEffect(() => {
-    if (postStatus === "idle") {
-      dispatch(fetchPosts());
-    }
-  }, [postStatus, dispatch]);
+  // useEffect(() => {
+  //   if (postStatus === "idle") {
+  //     dispatch(fetchPosts());
+  //   }
+  // }, [postStatus, dispatch]);
 
   let content;
 

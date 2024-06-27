@@ -13,6 +13,9 @@ export default function Header() {
           <li>
             <Link to="Post">Post</Link>
           </li>
+          <li>
+            <Link to="user">User</Link>
+          </li>
         </ul>
       </nav>
     </header>
