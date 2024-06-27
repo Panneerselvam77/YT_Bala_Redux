@@ -7,8 +7,10 @@ import { Provider } from "react-redux";
 import { store } from "./Redux/Store/Store";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { fetchUsers } from "./Redux/Features/User/userSlice";
+import { fetchPosts } from "./Redux/Features/Posts/postSlice";
 
 store.dispatch(fetchUsers());
+store.dispatch(fetchPosts());
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
