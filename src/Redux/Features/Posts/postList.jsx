@@ -4,7 +4,7 @@ import { selectAllPosts, getPostsError, getPostsStatus } from "./postSlice";
 import PostExcerpt from "./postExcerpt";
 export default function PostList() {
   // Selector hooks to get posts state from Redux store
-  const posts = useSelector(selectAllPosts);
+  const orderedPostsIds = useSelector(selectAllPosts);
   const postStatus = useSelector(getPostsStatus);
   const error = useSelector(getPostsError);
 
@@ -28,10 +28,10 @@ export default function PostList() {
   if (postStatus === "loading") {
     content = <p>Loading...</p>;
   } else if (postStatus === "succeeded") {
-    const orderedPosts = posts
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedPosts.map((post, index) => (
+    // const orderedPosts = posts
+    //   .slice()
+    //   .sort((a, b) => b.date.localeCompare(a.date));
+    content = orderedPostsIds.map((post, index) => (
       <PostExcerpt key={index} post={post} />
     ));
   } else if (postStatus === "failed") {
